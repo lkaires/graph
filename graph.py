@@ -1,74 +1,84 @@
 #!/usr/bin/python
 
+import Node in node.py
+import random
+
 class Graph:
 
-    nodes = {}
-    edges = {}
+    # Construtor
+    def __init__(self):
+        self.nodes = {}
+        self.edges = {}
 
     # Adiciona vértice
     # Recebe nome do vértice
     def addNode(self, name):
-        nodes[name] = Node()
-        edges[name] = set([])
+        self.nodes[name] = Node(name)
+        self.edges[name] = set([])
 
     # Remove vértice
     # Recebe nome do vértice
     def removeNode(self, name):
-        for n in edges[name]:
-            edges[n].discard(name)
-        del edges[name]
-        del nodes[name]
+        for n in self.edges[name]:
+            self.edges[n].discard(name)
+            self.nodes[n].rmEdge()
+        del self.edges[name]
+        del self.nodes[name]
 
     # Conecta dois vértices
     # Recebe os nomes dos vértices a serem conectados
     def connect(self, name1, name2):
-        if nodes.has_key(name1) and nodes.has_key(name2):
-            edges[name1].add(name2)
-            edges[name2].add(name1)
+        if self.nodes.has_key(name1) and self.nodes.has_key(name2):
+            self.edges[name1].add(name2)
+            self.nodes[name1].addEdge()
+            self.edges[name2].add(name1)
+            self.nodes[name2].addEdge()
 
     # Desconecta dois vértices
     # Recebe os nomes dos vértices a serem desconectados
     def disconnect(self, name1, name2):
         if nodes.has_key(name1) and nodes.has_key(name2):
-            edges[name1].discard(name2)
-            edges[name2].discard(name1)
+            self.edges[name1].discard(name2)
+            self.nodes[name1].rmEdge()
+            self.edges[name2].discard(name1)
+            self.nodes[name2].rmEdge()
 
     # Ordem do grafo
     # Retorna o número de vértices do grafo
     def order(self):
-        return len(nodes)
+        return len(self.nodes)
 
     # Vértices
     # Retorna os vértices do grafo
     def nodes(self):
-        return nodes;
+        return self.nodes
 
     # Vértice
     # Retorna um vértice aleatório do grafo
     def randomNode(self):
+        random.choice(self.nodes)
 
     # Adjacentes
     # Recebe nome do vértice
     # Retorna os vértices ligados ao recebido
     def adjency(self, name):
-        return edges[name]
+        return self.edges[name]
 
     # Grau
     # Recebe nome do vértice
     # Retorna número de vértices ligados ao recebido
     def degree(self, name):
-        return nodes[name].degree
+        return self.nodes[name].degree
 
     # Regular
     # Verifica se todos os vértices possuem o mesmo grau
     # Retorna boolean da verificação
     def regular(self):
         degree = randomNome().degree
-        for n in node:
+        for n in self.nodes:
             temp = n.degree
             if temp != degree:
                 return False;
-            degree = temp
         return True
 
     # Completo
