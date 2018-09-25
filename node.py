@@ -2,9 +2,10 @@
 
 class Node:
 
-    def __init__(self):
-        degree = 0
-        mark = False
+    def __init__(self, name):
+        self.degree = 0
+        self.mark = False
+        self.name = name
 
     def addEdge(self):
         degree++
