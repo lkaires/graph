@@ -1,19 +1,19 @@
 #!/usr/bin/python
 
-import Node in node.py
+from node import Node
 import random
 
 class Graph:
 
     # Construtor
-    def __init__(self):
+    def __init__(self) :
         self.nodes = {}
         self.edges = {}
 
     # Adiciona vértice
     # Recebe nome do vértice
     def addNode(self, name):
-        self.nodes[name] = Node(name)
+        self.nodes[name] = Node()
         self.edges[name] = set([])
 
     # Remove vértice
@@ -27,6 +27,7 @@ class Graph:
 
     # Conecta dois vértices
     # Recebe os nomes dos vértices a serem conectados
+    # Primeiro vértice conecta com o segundo nessa direção
     def connect(self, name1, name2):
         if self.nodes.has_key(name1) and self.nodes.has_key(name2):
             self.edges[name1].add(name2)
@@ -75,10 +76,11 @@ class Graph:
     # Retorna boolean da verificação
     def regular(self):
         degree = randomNome().degree
-        for n in self.nodes:
+        for n in self.node:
             temp = n.degree
             if temp != degree:
                 return False;
+            degree = temp
         return True
 
     # Completo

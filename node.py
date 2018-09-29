@@ -3,15 +3,24 @@
 class Node:
 
     def __init__(self, name):
-        self.degree = 0
+        self.indegree = 0
+        self.outdegree = 0
+        self.inEdge = {}
+        self.outEdge = {}
         self.mark = False
         self.name = name
 
-    def addEdge(self):
-        degree++
+    def addTo(self):
+        self.outdegree++
 
-    def rmEdge(self):
-        degree--
+    def addFrom(self):
+        self.indegree++
+
+    def rmTo(self):
+        self.outdegree--
+
+    def rmFrom(self):
+        self.indegree--
 
     # Marca o nodo
     # Recebe boolean
