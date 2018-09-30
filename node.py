@@ -7,7 +7,6 @@ class Node:
         self.outdegree = 0
         self.inEdges = {}
         self.outEdges = {}
-        self.mark = False
         self.name = name
 
     def addTo(self, name, value):
@@ -30,9 +29,3 @@ class Node:
     # Retorna a quatidade de arestas de entrada ou saída do vértice
     def degree(self):
         return self.indegree + self.outdegree
-
-    # Marca o nodo
-    # Recebe boolean
-    # Atualiza mark para o valor passado
-    def mark(self, mark):
-        self.mark = mark

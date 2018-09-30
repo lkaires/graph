@@ -43,7 +43,7 @@ class Graph:
     # Desconecta dois vértices
     # Recebe os nomes dos vértices a serem desconectados
     def disconnect(self, name1, name2):
-        if nodes.has_key(name1) and nodes.has_key(name2):
+        if self.nodes.has_key(name1) and self.nodes.has_key(name2):
             self.nodes[name1].rmTo(name2)
             self.nodes[name2].rmFrom(name1)
 
@@ -77,7 +77,7 @@ class Graph:
     # Verifica se todos os vértices possuem o mesmo grau
     # Retorna boolean da verificação
     def regular(self):
-        degree = randomNode().degree()
+        degree = self.randomNode().degree()
         for n in self.nodes:
             if self.nodes[n].degree() != degree:
                 return False;
@@ -87,18 +87,52 @@ class Graph:
     # Verifica se todos os vértices se conectam com todos os vértices
     # Retorna boolean da verificação
     def complete(self):
+        degree = len(self.nodes)
+        for node in self.nodes:
+            if self.nodes[node].degree() != degree:
+                return False
+        return True
 
     # Fecho Transitivo
     # Recebe nome do vértice
     # Retorna todos os vértices alcançáveis pelo recebido
     def closure(self, name):
+        return self.closure(name, {})
+
+    # Fecho Transitivo
+    # Recebe o nome do vértice e os vértices já descobertos do fecho transitivo
+    # Calcula o fecho transitivo de forma recursiva
+    def closure(self, name, closure):
+        closure[name] = self.nodes[name]
+        for node in closure[name].outEdges:
+            if closure.has_key(node) == False:
+                self.closure(node, closure)
+        return closure
 
     # Conexo
     # Verifica se existe pelo menos um caminho entre cada par de vértices
     # Retorna boolean da verificação
     def connected(self):
+        return self.nodes == self.closure(self.randomNode())
 
     # Árvore
     # Verifica se não há ciclos no grafo
     # Retorna boolean da verificação
     def tree(self):
+        if connected() == False:
+            return False
+
+    # Ciclos
+    # Verifica se há ciclos
+    # Retorna boolean da verificação
+    # Calcula o resultado de forma recursiva
+    def cycles(self, name1, name2, closure):
+        if closure.has_key(name1):
+            return True
+        closure[name1] = self.nodes[name1]
+        for node in self.adjency(name1):
+            if node != name2:
+                if cycles(node, name1, closure):
+                    return True
+        del closure[name1]
+        return False
