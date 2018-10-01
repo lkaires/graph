@@ -120,7 +120,7 @@ def main():
     graph.addNode("INE5434")
 
     # Dependências da oitava fase
-    graph.connect("INE5433")
+    graph.connect("INE5433", "INE5434")
 
 if __name__ == "__main__" :
     main()

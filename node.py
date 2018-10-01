@@ -10,19 +10,19 @@ class Node:
         self.name = name
 
     def addTo(self, name, value):
-        self.outdegree++
+        self.outdegree = self.outdegree + 1
         self.outEdges[name] = value
 
     def addFrom(self, name, value):
-        self.indegree++
+        self.indegree = self.indegree + 1
         self.inEdges[name] = value
 
     def rmTo(self, name):
-        self.outdegree--
+        self.outdegree = self.outdegree - 1
         del self.outEdges[name]
 
     def rmFrom(self, name):
-        self.indegree--
+        self.indegree = self.indegree - 1
         del self.inEdges[name]
 
     # Grau do vértice

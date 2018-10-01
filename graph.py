@@ -24,26 +24,18 @@ class Graph:
         del self.nodes[name]
 
     # Conecta dois vértices
-    # Recebe os nomes dos vértices a serem conectados
-    # Primeiro vértice conecta com o segundo nessa direção
-    # Peso da aresta vira 1
-    def connect(self, name1, name2):
-        if self.nodes.has_key(name1) and self.nodes.has_key(name2):
-            self.nodes[name1].addTo(name2, 1)
-            self.nodes[name2].addFrom(name1, 1)
-
-    # Conecta dois vértices
     # Recebe os nomes dos vértices a serem conectados e peso da aresta
     # Primeiro vértice conecta com o segundo nessa direção
-    def connect(self, name1, name2, value):
-        if self.nodes.has_key(name1) and self.nodes.has_key(name2):
+    # Peso padrão da aresta é um
+    def connect(self, name1, name2, value=1):
+        if name1 in self.nodes and name2 in self.nodes:
             self.nodes[name1].addTo(name2, value)
             self.nodes[name2].addFrom(name1, value)
 
     # Desconecta dois vértices
     # Recebe os nomes dos vértices a serem desconectados
     def disconnect(self, name1, name2):
-        if self.nodes.has_key(name1) and self.nodes.has_key(name2):
+        if name1 in self.nodes and name2 in self.nodes:
             self.nodes[name1].rmTo(name2)
             self.nodes[name2].rmFrom(name1)
 
@@ -66,6 +58,7 @@ class Graph:
     # Recebe nome do vértice
     # Retorna os vértices ligados ao recebido
     def adjency(self, name):
+        return self.nodes[name].outEdges
 
     # Grau
     # Recebe nome do vértice
@@ -104,8 +97,8 @@ class Graph:
     # Calcula o fecho transitivo de forma recursiva
     def closure(self, name, closure):
         closure[name] = self.nodes[name]
-        for node in closure[name].outEdges:
-            if closure.has_key(node) == False:
+        for node in self.adjency(name):
+            if node in closure == False:
                 self.closure(node, closure)
         return closure
 
@@ -121,13 +114,16 @@ class Graph:
     def tree(self):
         if connected() == False:
             return False
+        if cycles():
+            return False
+        return True
 
     # Ciclos
     # Verifica se há ciclos
     # Retorna boolean da verificação
     # Calcula o resultado de forma recursiva
     def cycles(self, name1, name2, closure):
-        if closure.has_key(name1):
+        if name1 in closure:
             return True
         closure[name1] = self.nodes[name1]
         for node in self.adjency(name1):
