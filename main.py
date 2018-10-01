@@ -122,5 +122,8 @@ def main():
     # Dependências da oitava fase
     graph.connect("INE5433", "INE5434")
 
+    # Ordenação topológica
+    graph.topologic()
+
 if __name__ == "__main__" :
     main()

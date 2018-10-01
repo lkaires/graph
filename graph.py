@@ -87,12 +87,6 @@ class Graph:
         return True
 
     # Fecho Transitivo
-    # Recebe nome do vértice
-    # Retorna todos os vértices alcançáveis pelo recebido
-    def closure(self, name):
-        return self.closure(name, {})
-
-    # Fecho Transitivo
     # Recebe o nome do vértice e os vértices já descobertos do fecho transitivo
     # Calcula o fecho transitivo de forma recursiva
     def closure(self, name, closure):
@@ -122,13 +116,37 @@ class Graph:
     # Verifica se há ciclos
     # Retorna boolean da verificação
     # Calcula o resultado de forma recursiva
-    def cycles(self, name1, name2, closure):
-        if name1 in closure:
+    def cycles(self, name1, name2, nodes):
+        if name1 in nodes:
             return True
-        closure[name1] = self.nodes[name1]
+        nodes[name1] = self.nodes[name1]
         for node in self.adjency(name1):
             if node != name2:
-                if cycles(node, name1, closure):
+                if cycles(node, name1, nodes):
                     return True
-        del closure[name1]
+        del nodes[name1]
         return False
+
+    # Ordenação Topológica
+    # Retorna os vértices ordenados de forma topológica
+    # Vértice só aparece caso seus antecessores já estejam
+    # Começa pelos sumidouros
+    def topologic(self):
+        nodes = {}
+        for node in self.nodes:
+            if self.nodes[node].outdegree == 0:
+                self.topologicalSorting(node, nodes)
+        return nodes
+
+    # Ordenação topológica
+    # Recebe o vértice a ser iterado e a lista de vértices
+    # Retorna a lista de vértices atualizada
+    # Funciona de forma recursiva
+    # Vai para os antecessores do vértice, marcando na volta
+    def topologicalSorting(self, name, nodes):
+        if name in nodes:
+            return nodes
+        for node in self.nodes[name].inEdges:
+            self.topologicalSorting(node, nodes)
+        nodes[name] = self.nodes[name]
+        return nodes
