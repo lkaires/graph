@@ -123,7 +123,9 @@ def main():
     graph.connect("INE5433", "INE5434")
 
     # Ordenação topológica
-    graph.topologic()
+    print("Ordenação topológica:")
+    for node in graph.topologic():
+        print(node)
 
 if __name__ == "__main__" :
     main()
